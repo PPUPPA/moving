@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.dao.ScheduleDao">
+	<select id="theaterList" resultType="TheaterDto">
+		select tt_no,tt_name,tt_address from
+		theater
+	</select>
+
+	<select id="theaterDetail" resultType="TheaterDto"
+		parameterType="TheaterDto">
+		select tt.*,sum(scr_st_cnt) as total_st_cnt from theater
+		tt join screen src
+		on tt.tt_no = src.tt_no where tt.tt_no = #{tt_no}
+	</select>
+
+	<select id="scheduleList" resultType="ScheduleResultDto"
+		parameterType="java.util.HashMap">
+		SELECT
+		s.sch_no,m.mv_ktitle,m.mv_cert,s.sch_date,s.sch_start,s.sch_end,t.tt_name,scr.scr_no,scr.scr_name,s.sch_cnt,scr.scr_st_cnt
+		FROM schedule s JOIN movie m JOIN screen scr JOIN theater t
+		ON (s.mv_cd
+		= m.mv_cd and s.scr_no = scr.scr_no and
+		scr.tt_no = t.tt_no)
+		WHERE
+		t.tt_no = #{theaterNO} AND s.sch_date =
+		#{date} AND s.schstate_no = 1
+		ORDER BY m.mv_ktitle asc,scr.scr_no asc,s.sch_start
+		asc
+	</select>
+
+	<select id="scheduleMovieList" resultType="MovieDto"
+		parameterType="java.util.HashMap">
+		SELECT distinct m.mv_ktitle, m.mv_cert
+		FROM schedule s
+		JOIN movie m JOIN screen scr JOIN theater t JOIN
+		schedulestate ss
+		ON
+		(s.mv_cd = m.mv_cd and s.scr_no = scr.scr_no and scr.tt_no = t.tt_no)
+		WHERE t.tt_no = #{theaterNO} AND s.sch_date = #{date} AND
+		s.schstate_no = 1
+		ORDER BY
+		m.mv_ktitle asc
+	</select>
+
+	<update id="updateScheduleState">
+		UPDATE schedule
+		SET schstate_no =
+		CASE
+		WHEN
+		CURRENT_TIMESTAMP BETWEEN CONCAT(sch_date, ' ', sch_start) AND
+		CONCAT(sch_date, ' ', sch_end) THEN 2
+		WHEN CURRENT_TIMESTAMP >
+		CONCAT(sch_date, ' ', sch_end) THEN 3
+		ELSE schstate_no
+		END
+		WHERE
+		schstate_no in (1,2);
+	</update>
+
+	<!-- 관리자 부분 -->
+	<select id="screenList" resultType="ScreenDto"
+		parameterType="ScreenDto">
+		SELECT s.scr_no, s.scr_name, s.scr_st_cnt
+		FROM screen s
+		JOIN theater t
+		ON(s.tt_no = t.tt_no)
+		WHERE t.tt_no = #{tt_no} and
+		s.scrstate_no = 1
+		ORDER BY s.scr_name ASC;
+	</select>
+
+	<select id="scheduleListAdmin" resultType="ScheduleResultDto"
+		parameterType="java.util.HashMap">
+		SELECT
+		s.sch_no,
+		m.mv_ktitle,
+		scr.scr_no,
+		scr.scr_name,
+		s.sch_cnt,
+		scr.scr_st_cnt,
+		SUM(scr.scr_st_cnt) - (SELECT COUNT(*) FROM broken_seat WHERE scr_no = scr.scr_no) AS
+		available_seats,
+		ss.schstate_state,
+		TIME_FORMAT(s.sch_start, '%H:%i') AS sch_start,
+		TIME_FORMAT(s.sch_end, '%H:%i') AS sch_end
+		FROM schedule s
+		JOIN movie m ON s.mv_cd = m.mv_cd
+		JOIN screen scr ON s.scr_no = scr.scr_no
+		JOIN theater t ON scr.tt_no = t.tt_no
+		JOIN schedulestate ss ON s.schstate_no = ss.schstate_no
+		WHERE 1=1
+		<if test="theaterNo != null">
+			AND t.tt_no = #{theaterNo}
+		</if>
+		<if test="scrNo != null">
+			AND scr.scr_no = #{scrNo}
+		</if>
+		<if test="schStart != null">
+			AND s.sch_start = #{schStart}
+		</if>
+		AND s.sch_date = #{date}
+		GROUP BY
+		s.sch_no, m.mv_ktitle, scr.scr_name, s.sch_cnt, ss.schstate_state, s.sch_start,
+		s.sch_end
+		ORDER BY scr.scr_no ASC, s.sch_start ASC;
+	</select>
+
+	<select id="movieListAll" resultType="MovieDto">
+		select
+		mv_cd,mv_ktitle,mv_runtime from movie where mv_live = 1 order by mv_cd
+		asc
+	</select>
+
+	<insert id="insertSchedule" parameterType="ScheduleDto">
+		INSERT INTO schedule
+		(scr_no, mv_cd, sch_date, sch_start, sch_end, sch_cnt)
+		VALUES
+		(#{scr_no}, #{mv_cd}, #{sch_date}, #{sch_start}, #{sch_end},
+		#{sch_cnt});
+	</insert>
+
+	<select id="isValidDataForInsert" resultType="integer"
+		parameterType="ScheduleDto">
+		SELECT COUNT(*)
+		FROM schedule
+		WHERE scr_no = #{scr_no}
+		AND
+		sch_date = #{sch_date}
+		AND NOT (sch_end &lt;= #{sch_start} OR sch_start
+		&gt;= #{sch_end})
+	</select>
+
+	<delete id="deleteSchedule" parameterType="ScheduleDto">
+		delete from schedule
+		where sch_no = #{sch_no};
+	</delete>
+
+	<select id="getTheaterHours" parameterType="TheaterDto"
+		resultType="TheaterDto">
+		select tt_start, tt_close from theater where tt_no =
+		#{tt_no};
+	</select>
+
+	<select id="brokenSeatCnt" parameterType="int"
+		resultType="integer">
+		select count(*) from broken_seat where scr_no = #{scr_no}
+	</select>
+
+	<!-- GEMINI -->
+	<select id="getMvCdAndRuntime" parameterType="string"
+		resultType="MovieDto">
+		select mv_cd,mv_runtime from movie where mv_ktitle=
+		#{mv_ktitle}
+	</select>
+
+	<select id="getScrNoAndSeats" parameterType="java.util.HashMap"
+		resultType="ScreenDto">
+		select s.scr_no,s.scr_st_cnt,s.tt_no from screen s join
+		theater t on s.tt_no = t.tt_no
+		where t.tt_name = #{tt_name} and
+		s.scr_name = #{scr_name};
+	</select>
+
+
+</mapper>

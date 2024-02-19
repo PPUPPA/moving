@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.dao.BoardDao">
+	<sql id="mv_searchCondition">
+		<choose>
+			<when test="searchType=='b_title'">where lower(b_title) like concat('%', lower(#{searchKey}), '%')</when>
+			<when test="searchType=='b_content'">where lower(b_content) like concat('%', lower(#{searchKey}), '%')</when>
+			<when test="searchType=='b_all'">where lower(b_title) like concat('%', lower(#{searchKey}), '%') or lower(b_content) like concat('%', lower(#{searchKey}), '%')</when>
+		</choose>
+	</sql>
+	
+	<insert id="b_insert" parameterType="BoardDto">
+		insert into board (user_no, b_title, b_content, b_crtdate, b_ip) 
+		values (1, #{b_title}, #{b_content}, now(), #{b_ip})
+	</insert>
+	<update id="b_update" parameterType="BoardDto">
+		update board set b_title=#{b_title}, b_content=#{b_content}
+		where board_no=#{board_no}
+	</update>
+	<update id="b_update_hit" parameterType="int">
+		update board set b_hit=b_hit+1
+		where board_no=#{board_no}
+	</update>
+	<delete id="b_delete" parameterType="BoardDto">
+		delete from board
+		where board_no=#{board_no}
+	</delete>
+	<select id="b_read" parameterType="int" resultType="BoardDto">
+		select * from board
+		where board_no=#{board_no}
+	</select>
+	<select id="b_readAll" resultType="BoardDto">
+	    select * from board order by board_no desc
+	</select>
+	
+	<select id="b_total" resultType="int">
+		select count(*) from board
+	</select>
+	
+	<select id="b_totalSearch" parameterType="map" resultType="int">
+		select count(*) from board
+	    <include refid="mv_searchCondition" />
+	</select>
+	
+	<select id="b_listCnt" parameterType="java.util.HashMap" resultType="BoardDto">
+		select * from board
+		<include refid="mv_searchCondition" />
+		order by board_no desc limit #{pstartno}, #{onepagelimit}
+	</select>
+</mapper>

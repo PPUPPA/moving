@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.dao.MovieDao">
+	<sql id="mv_searchCondition">
+		<choose>
+			<when test="searchType=='mv_title'">lower(mv_ktitle) like concat('%', lower(#{searchKey}), '%') or lower(mv_etitle) like concat('%', lower(#{searchKey}), '%') and</when>
+			<when test="searchType=='mv_dname'">lower(mv_dname) like concat('%', lower(#{searchKey}), '%') and</when>
+			<when test="searchType=='movie_genre'">movie_genre like concat('%', #{searchKey}, '%') and</when>
+		</choose>
+	</sql>
+
+	<insert id="mv_insert" parameterType="MovieDto">
+		insert into movie (mv_cd, mv_ktitle, mv_etitle, mv_runtime, mv_plot,
+		mv_dname, movie_genre, mv_aname, mv_rating, mv_nation,
+		mv_company, mv_img, mv_stilcut, mv_video, mv_popularity,
+		mv_cert, mv_start, mv_crtdate)
+		values (#{mv_cd}, #{mv_ktitle}, #{mv_etitle}, #{mv_runtime}, #{mv_plot},
+        #{mv_dname}, #{movie_genre}, #{mv_aname}, #{mv_rating}, #{mv_nation},
+        #{mv_company}, #{mv_img}, #{mv_stilcut}, #{mv_video}, #{mv_popularity},
+        #{mv_cert}, #{mv_start}, now())
+	</insert>
+	<update id="mv_update" parameterType="MovieDto">
+		update movie
+		set mv_ktitle=#{mv_ktitle}, mv_etitle=#{mv_etitle}, mv_plot=#{mv_plot}
+		where mv_cd=#{mv_cd};
+	</update>
+	<update id="mv_changeState" parameterType="MovieDto">
+		update movie
+		set mv_live=#{mv_live}
+		where mv_cd=#{mv_cd};
+	</update>
+	
+	<select id="mv_read" parameterType="int" resultType="MovieDto">
+		select * from movie
+		where mv_cd=#{mv_cd};
+	</select>
+	<select id="mv_readLive" resultType="MovieDto">
+	    select * from movie where mv_live=1 order by mv_popularity desc
+	</select>
+	<select id="mv_readUnlive" resultType="MovieDto">
+	    select * from movie where mv_live=0 order by mv_popularity desc
+	</select>
+	
+	<select id="mv_totalLive" resultType="int">
+		select count(*) from movie where mv_live=1
+	</select>
+	<select id="mv_totalUnlive" resultType="int">
+		select count(*) from movie where mv_live=0
+	</select>
+	
+	<select id="mv_totalLiveSearch" parameterType="map" resultType="int">
+	    select count(*) from movie where 
+	    <include refid="mv_searchCondition" />
+	    mv_live=1
+	</select>
+	
+	<select id="mv_totalUnliveSearch" parameterType="map" resultType="int">
+	    select count(*) from movie where 
+	    <include refid="mv_searchCondition" />
+	    mv_live=0
+	</select>
+	
+	<select id="mv_cntLive" parameterType="java.util.HashMap" resultType="MovieDto">
+		select * from movie where 
+		<include refid="mv_searchCondition" />
+		mv_live=1
+		order by mv_popularity desc limit #{pstartno}, #{onepagelimit}
+	</select>
+	<select id="mv_cntUnlive" parameterType="java.util.HashMap" resultType="MovieDto">
+		select * from movie where 
+		<include refid="mv_searchCondition" />
+		mv_live=0
+		order by mv_popularity desc limit #{pstartno}, #{onepagelimit}
+	</select>
+	
+	<select id="mv_readGenreLive" parameterType="java.util.List" resultType="MovieDto">
+	    select * from movie where mv_live=1
+	    <if test="list != null and list.size() > 0">
+	        and  
+	        <foreach item="genre" collection="list" separator=" OR " open="(" close=")">
+	            movie_genre REGEXP #{genre}
+	        </foreach>
+	    </if>
+	    order by mv_popularity desc
+	</select>
+</mapper>

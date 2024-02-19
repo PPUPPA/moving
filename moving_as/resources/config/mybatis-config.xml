@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+ 		<typeAlias type="com.company.dto.TTandScrDto" alias="TTandScrDto"/> 
+ 		<typeAlias type="com.company.dto.BrokenSeatDto" alias="BrokenSeatDto"/> 
+		<typeAlias type="com.company.dto.MovieDto"  alias="MovieDto"/> 
+		<typeAlias type="com.company.dto.BoardDto"  alias="BoardDto"/> 
+		<typeAlias type="com.company.dto.TheaterDto"  alias="TheaterDto"/>
+		<typeAlias type="com.company.dto.ScheduleDto"  alias="ScheduleDto"/>
+		<typeAlias type="com.company.dto.Reservation_ViewDto"  alias="Reservation_ViewDto"/>
+		<typeAlias type="com.company.dto.ScreenDto"  alias="ScreenDto"/>
+		<typeAlias type="com.company.dto.BrokenSeatDto"  alias="BrokenSeatDto"/>
+		<typeAlias type="com.company.dto.ReservationdetailDto"  alias="ReservationdetailDto"/>
+		<typeAlias type="com.company.dto.IhResultDto"  alias="IhResultDto"/>
+		<typeAlias type="com.company.dto.UserDto"  alias="UserDto"/>
+		<typeAlias type="com.company.dto.UserDtoXml"  alias="UserDtoXml"/>
+		<typeAlias type="com.company.dto.UsertypeDto"  alias="UsertypeDto"/>
+		<typeAlias type="com.company.dto.ScheduleResultDto"
+			alias="ScheduleResultDto" />
+	</typeAliases>
+</configuration>

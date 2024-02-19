@@ -1,0 +1,214 @@
+@charset "UTF-8";
+
+/* 목록 */
+.as_board-list__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.as_board-list__notice {
+  font-size:16px;
+  font-weight: 400;
+}
+.as_board-list__notice strong {
+  color: #40dfd0;
+}
+.as_board-list__head .srch-box > div {
+  display: inline-block;
+  vertical-align: middle;
+}
+.as_board-list__head .srch-box .select,
+.as_board-list__head .srch-box .inp {
+  height: 42px;
+  padding-right:40px;
+  font-size:14px;
+}
+.as_board-list__head .srch-box .inp-box {
+  position: relative;
+}
+.as_board-list__head .srch-box .inp-box .btn-srch {
+  position: absolute;
+  top:0;
+  right:5px;
+  width:40px;
+  height: 40px;
+  background: url(../images/common/ico_srch.png) no-repeat 50% 50%;
+}
+.as_board-list__head .srch-box .inp-box .btn-del {
+  display: none;
+  position: absolute;
+  top:0;
+  right:40px;
+  width:30px;
+  height: 40px;
+  background: url(../images/common/ico_del.svg) no-repeat 50% 50%;
+}
+.as_board-list__head .board-sort {
+  flex: 1;
+  margin-bottom: 0;
+  margin-right:40px;
+}
+
+.board-sort {
+  margin-bottom: 25px;
+}
+.board-sort ul {
+  display: flex;
+  margin:0 -4px;
+  justify-content: space-between;
+}
+.board-sort ul li {
+  flex: 1;
+  padding:0 4px;
+}
+.board-sort ul li a {
+  display: block;
+  height: 42px;
+  border: 1px solid #e4e9f2;
+  border-radius:4px;
+  font-size:16px;
+  color: #000;
+  text-align: center;
+  line-height: 40px;
+  transition: all 0.3s ease;
+}
+.board-sort ul li a.is-active,
+.board-sort ul li a:hover {
+  background: #40dfd0;
+  border-color:#40dfd0;
+  font-weight: 700;
+  color: #000;
+}
+
+.as_board-list__table table {
+  width:100%;
+  border-collapse: collapse;
+}
+.as_board-list__table table thead th {
+  height: 28px;
+  background: #f7f9fc;
+  border-top:1px solid #e4e9f2;
+  border-bottom: 1px solid #e4e9f2;
+  padding-left: 10px;
+  font-size:12px;
+  font-weight: 600;
+  color: #718096;
+  text-align: center;
+  line-height: 1;
+}
+.as_board-list__table table tbody td {
+  padding:13px 5px 13px 10px;
+  border-bottom: 1px solid #eff4fb;
+  font-size:14px;
+  color: #606060;
+  text-align: center;
+}
+.as_board-list__table table tbody td a {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.as_board-list__table table tbody td .val input {
+  vertical-align: middle;
+}
+.as_board-list__table table tbody td .val input[disabled] {
+  opacity:.4;
+}
+.as_board-list__table table tbody td .val span {
+  margin:0 6px;
+  vertical-align: middle;
+}
+.as_board-list__table::-webkit-scrollbar {
+  width:5px;
+  height: 10px;
+}
+.as_board-list__table::-webkit-scrollbar-thumb {
+  width:5px;
+  background: #ccc;
+  border-radius:5px;
+}
+.as_board-list__table::-webkit-scrollbar-track {
+  background:#f2f2f2;
+}
+
+/* 상세 */
+.as_board__view{
+  margin: 50px 0 30px;
+}
+.as_board__head {
+  position: relative;
+  padding-right:140px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e4e9f2;
+}
+.as_board__head .kind {
+  margin-bottom: 4px;
+  font-size:14px;
+  font-weight: 600;
+  color: #40dfd0;
+}
+.as_board__title {
+  font-size:24px;
+  font-weight: 400;
+  color: #212121;
+  line-height: 1.2;
+}
+.as_board__hit {
+  position: absolute;
+  right:0;
+  bottom:10px;
+}
+.as_board__hit span+span {
+	margin-left: 8px;
+    padding-left: 8px;
+    border-left: 1px solid #cfcfcf;
+}
+.as_board__content {
+  padding:20px 0 60px;
+  border-bottom: 1px solid #e4e9f2;
+  font-size:16px;
+  color: #454545;
+  line-height: 1.5;
+}
+.as_board__content pre {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0 none;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+  white-space: pre-line;
+}
+.as_board__content img {
+  max-width:100%;
+}
+.as_board__footer {
+  text-align: right;
+}
+
+.btn-board-list {
+  display: inline-block;
+  height: 42px;
+  padding:0 18px;
+  border:1px solid #e4e9f2;
+  border-radius:4px;
+  font-size:14px;
+  color: #000;
+  line-height: 40px;
+  vertical-align: middle;
+}
+.btn-board-list:before {
+  content: "";
+  display: inline-block;
+  width:24px;
+  height: 24px;
+  margin:-3px 5px 0 0;
+  background: url(../images/common/ico_list.png) no-repeat 0 0;
+  vertical-align: middle;
+}

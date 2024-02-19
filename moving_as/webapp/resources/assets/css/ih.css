@@ -1,0 +1,546 @@
+@charset "UTF-8";
+/*************** common *****************/
+
+*{ margin:0; padding:0; }
+li{list-style-type:none; }
+/*************** common *****************/
+
+/*************** joinForm ***************/
+.ih__joinForm {
+    display: flex;
+    margin-top: 100px;
+    width: 600px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 100px;
+    font-size: 105%;
+}
+.ih__joinForm *{
+    font-size: 18px;
+}
+.ih__joinForm .title{
+	margin-left: 70px;
+    width: 98px;
+    border-bottom: 5px solid #00ffc2;
+}
+.ih__joinForm h2 {
+    text-align: left;
+    width: 110px;
+    font-size: 28px;
+    font-weight: bold;
+}
+.ih__joinForm fieldset{
+	margin: 0px 70px;
+}
+.ih__joinForm .form-class{
+	margin:10px 0;
+}
+.ih__joinForm label {
+    display: block;
+    height: 30px;
+    margin : 30px 0px 0px 0;
+}
+.ih__joinForm input[type="text"], 
+.ih__joinForm input[type="password"], 
+.ih__joinForm input[type="tel"], 
+.ih__joinForm input[type="email"]{
+    border: none;
+    border-bottom: 1px solid #dcdcdc;
+    width: 335px;
+    height: 30px;
+    margin: 0;
+    outline: none;
+}
+.ih__joinForm #inputEmail{
+	width: 260px;
+}
+.ih__joinForm #email2{
+	border-bottom: 1px solid #dcdcdc;
+    width: 285px;
+}
+.ih__joinForm #timeLimit{
+	border-bottom: 1px solid #dcdcdc;
+    width: 72px;
+    text-align: center;
+    background-color: white;
+}
+.ih__joinForm .agreement {
+    display: block;
+    margin-top: 40px;
+}
+.ih__joinForm .agreement label {
+    display: inline-block;
+    margin: 0;
+    width: 400px;
+}
+
+.ih__joinForm .privacy, 
+.ih__joinForm .service {
+    display: block;
+    height: 0;
+    overflow: auto;
+    transition: height 0.5s ease;
+}
+
+.ih__joinForm .privacy.active, 
+.ih__joinForm .service.active {
+    height: 150px;
+}
+.ih__joinForm .btn-flip{
+    display: inline-block;
+    position: relative;
+    width: 24px;
+    height: 20px;
+    background: url(../images/ih/errow_flipBox.png) no-repeat 50% 50%;
+	transition: all 0.5s ease;
+}
+.ih__joinForm .btn-flip__rotate {
+    transform: rotate(180deg);
+}
+
+.ih__joinForm input[type="checkbox"]{
+	display: inline-block;
+}
+.ih__joinForm .button-class{
+	text-align: center;
+}
+.ih__joinForm .form-class input[type="button"]{
+	margin-left: 30px;
+}
+.ih__joinForm .agreement .checkbox-box {
+	margin-top: 16px;
+}
+.ih__joinForm .agreement :nth-child(3){
+	font-size: inherit;
+	text-align: center;
+}
+.ih__joinForm .terms * {
+	font-size: 15px;
+}
+.ih__joinForm .checkbox-box--all {
+	border-top: 1px solid #dcdcdc;
+}
+.ih__joinForm .checkbox-box--all label{
+ 	margin-top: 30px;
+}
+.ih__joinForm input[type="button"],
+.ih__joinForm .button-class > *{
+	width: 90px;
+	height: 35px;
+	font-weight: bold;
+}
+.ih__joinForm .button-class{
+	display: block;
+	margin-top:30px;
+}
+.ih__joinForm .button-class :nth-child(2){
+	background-color: #40dfd0;
+	color: black;
+	margin-left: 20px;
+}
+
+/*************** loginPage ***************/
+.ih__loginPage {
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    margin-top: 100px;
+    max-width: 490px;
+}
+.ih__loginPage h2{
+	text-align: left;
+	margin-bottom: 20px;
+	width: 129px;
+	border-bottom: 5px solid #40dfd0;
+}
+.ih__loginPage .inputType > *{
+	display: block;
+	border: none;
+}
+.ih__loginPage .inputType{
+	margin-top: 20px;
+}
+.ih__loginPage input[type="text"],
+.ih__loginPage input[type="password"]{
+	border-bottom: 1px solid #dcdcdc;
+	width: 490px;
+	height: 35px;
+	outline: none;
+}
+.ih__loginPage label{
+	text-align: left;
+	margin-bottom: 10px;
+}
+.ih__loginPage .remember{
+	text-align: left;
+	margin-top: 10px;
+}
+.ih__loginPage .find a {
+	display: inline-block;
+	margin:10px 5px;
+	vertical-align: middle;
+	line-height: 18px;
+}
+.ih__loginPage .find a + a {
+    padding-left: 10px;
+    margin-left: 10px;
+    border-left: 1px solid #909090;
+}
+
+.ih__loginPage input[type="submit"]{
+	width: 490px;
+	height: 50px;
+	border: none;
+	background-color:#40dfd0;
+	border-radius: 5px;
+	font-size: 20px;
+	font-weight: bold;
+	color: black;
+	margin: 10px 0;
+}
+.ih__loginPage .tit span:before {
+    content: '-';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: #0fc4b3;
+}
+.ih__loginPage .socialLogin > *{
+	margin: 20px 0px;
+}
+.ih__loginPage .under{
+	margin: 20px auto 0px;
+	font-size: 16px;
+}
+.ih__loginPage span {
+    color: #0fc4b3;
+}
+/*************** 마이페이지 입장 ***************/
+.ih_preMyUpdatePage {
+    width: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 130%;
+	margin: 150px auto 0px;
+}
+
+.ih_preMyUpdatePage .head {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ih_preMyUpdatePage .head img {
+  width: 50px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.ih_preMyUpdatePage .head pre {
+  font-size: 1em;
+  white-space: pre-wrap;
+  background: white;
+}
+.ih_preMyUpdatePage .input-group > *{
+  display: block;
+}
+.ih_preMyUpdatePage label{
+	margin-bottom: 20px;
+	margin-left:10px;
+}
+.ih_preMyUpdatePage input{
+	margin-bottom: 20px;
+	margin-left: 10px;
+	width:340px;
+	outline: none;
+	border: none;
+	border-bottom: 1px solid #dcdcdc;
+}
+.ih_preMyUpdatePage input#password {
+    font-size: 18px;
+}
+.ih_preMyUpdatePage #userCheckResult{
+	margin-left:10px;
+	margin-bottom:20px;
+}
+.ih_preMyUpdatePage .btn-group {
+	width:360px;
+}
+.ih_preMyUpdatePage .btn-group > *{
+	width:160px;
+	border-radius:5px;
+	border:none;
+	text-align:center;
+}
+.ih_preMyUpdatePage input#backButton {
+    border-radius: 5px;
+}
+.ih_preMyUpdatePage .submitBtn{
+	background-color: #40dfd0;
+	height: 34px;
+	margin-left:34px;
+}
+
+/*************** 마이페이지 ***************/
+.ih__myUpdatePage {
+    margin: 150px auto 0px;
+    width: 377px;
+    font-size: 120%;
+}
+.ih__myUpdatePage .h2 {
+    text-align: center;
+    border-bottom: 1px solid #dcdcdc;
+}
+.ih__myUpdatePage .title{
+	margin-top:120px;
+	margin-bottm:40px;
+}
+.ih__myUpdatePage label{
+	display:block;
+	margin:20px 0px;
+}
+.ih__myUpdatePage input[type="text"],
+.ih__myUpdatePage input[type="email"],
+.ih__myUpdatePage input[type="tel"],
+.ih__myUpdatePage input[type="age"]{
+    border: none;
+    border-bottom: 1px solid #dcdcdc;
+    width: 300px;
+    background-color:white;
+    height: 30px;
+    margin: 0;
+    outline: none;
+    font-size:120%;
+    margin-bottom:10px;
+}
+.ih__myUpdatePage input[type="text"],
+.ih__myUpdatePage input[type="tel"],
+.ih__myUpdatePage input[type="age"]{
+	width:375px;
+}
+
+.ih__myUpdatePage .form-class img{
+	display:inline-block;
+	height:52px;
+	width:52px;
+	margin:10px;
+	float:left;
+	margin-right:28px;
+}
+.ih__myUpdatePage .socialIntegration {
+    display: inline-block;
+    margin: 5px 8px;
+    border: 1px solid #dcdcdc;
+    border-radius:5px;
+    width: 170px;
+}
+.ih__myUpdatePage .socialIntegration span{
+    display:inline-block;
+    width: 50px;
+    margin-top:12px;
+    text-align:left;
+}
+.ih__myUpdatePage input#inputEmail {
+    width: 226px;
+}
+.ih__myUpdatePage input#timeLimit {
+    width: 71px;
+}
+.ih__myUpdatePage .button-class > * {
+    margin-left: 50px;
+    width: 110px;
+    margin-top: 20px;
+}
+.ih__myUpdatePage .btn-info {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+    width: 100%;
+    margin-top:350px;
+}
+.ih__myUpdatePage #goDeleteAndCancleBtn {
+    width: 200px;
+    position: relative;
+    margin-top: 10px;
+    height: 34px;
+    width: 377px;
+    border-radius:5px;
+    border: 1px solid gray;
+}
+.ih__myUpdatePage #changePass {
+    position: relative;
+    margin-top: 10px;
+    display: block;
+    width: 377px;
+}
+.ih__myUpdatePage .button-class {
+
+}
+/*************** findId ***************/
+.ih__findId {
+    position: relative;
+    margin: 170px auto 100px;
+    width: 400px;
+    font-size: 120%;
+    border: 1px solid black;
+}
+.ih__findId .head{
+    margin: 20px;
+}
+.ih__findId .head > *{
+  	font-size: 140%;
+  	margin-left:45px;
+}
+.ih__findId .head #first {
+    border-bottom: 5px solid #40dfd0;
+}
+.ih__findId .head #second {
+	color:#909090;
+}
+.ih__findId label{
+	display:block;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+.ih__findId input[type="text"],
+.ih__findId input[type="email"]{
+	width:350px;
+	outline:none;
+	border:none;
+	margin-left:20px;
+	margin-top:10px;
+	border-bottom: 1px solid #dcdcdc;
+}
+.ih__findId input.btn {
+	margin:30px;
+	width:330px;
+	color:black;
+	font-weight:bold;
+	background-color: #40dfd0;
+}
+/*************** 찾은아이디결과창 ***************/
+.ih__findId2 {
+    margin: 170px auto 100px;
+    width: 400px;
+    font-size: 120%;
+    border: 1px solid black;
+}
+.ih__findId2 .head{
+    margin: 20px;
+}
+.ih__findId2 .head > *{
+  	font-size: 140%;
+  	margin-left:45px;
+}
+.ih__findId2 .head #first {
+    border-bottom: 5px solid #40dfd0;
+}
+.ih__findId2 .head #second {
+	color:#909090;
+}
+.ih__findId2 pre {
+    height: 91px;
+    width: 90%;
+    margin-left: 19px;
+}
+.ih__findId2 a.btn {
+    margin: 20px;
+    width: 353px;
+    color: black;
+    font-weight: bold;
+    background-color: #40dfd0;
+}
+/*************** 비번찾기창 ***************/
+.ih__findPass {
+    margin: 170px auto 100px;
+    width: 400px;
+    font-size: 120%;
+    border: 1px solid black;
+}
+.ih__findPass .head #first{
+	color:#909090;
+}
+.ih__findPass .head #second{
+    border-bottom: 5px solid #40dfd0;
+}
+.ih__findPass .head{
+    margin: 20px;
+}
+.ih__findPass .head > *{
+  	font-size: 140%;
+  	margin-left:45px;
+}
+
+.ih__findPass label{
+	display:block;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+.ih__findPass input[type="text"],
+.ih__findPass input[type="email"]{
+	width:350px;
+	outline:none;
+	border:none;
+	margin-left:20px;
+	margin-top:10px;
+	border-bottom: 1px solid #dcdcdc;
+}
+.ih__findPass input.btn {
+	margin:30px;
+	width:330px;
+	color:black;
+	font-weight:bold;
+	background-color: #40dfd0;
+}
+.ih__findPass .button-class a {
+    margin-left: 30px;
+    width: 328px;
+    margin-bottom: 30px;
+}
+/*************** UpdatePassView ***************/
+.ih__myUpdatePass {
+    margin: 150px auto 0px;
+    width: 400px;
+    font-size: 120%;
+    border: 1px solid black;
+}
+.ih__myUpdatePass h2 {
+    margin: 20px 22px;
+    
+}
+.ih__myUpdatePass label{
+	display:block;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+.ih__myUpdatePass input[type="text"],
+.ih__myUpdatePass input[type="password"]{
+	width:350px;
+	outline:none;
+	border:none;
+	margin-left:20px;
+	margin-top:10px;
+	border-bottom: 1px solid #dcdcdc;
+}
+.ih__myUpdatePass .button-class > * {
+    margin-left: 63px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.ih__myUpdatePass a.btn.btn-danger {
+    width: 100px;
+}
+.ih__myUpdatePass input.btn.btn-primary {
+    width: 100px;
+}
+.ih__myUpdatePass .inputType p{
+	margin-left:20px;
+}
+/************************  관리자 테이블  **************/
+
+

@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+.as_movie-add .as_table{
+	margin-top: 20px;
+}
+.as_detail-table .as_plot {
+	height: 300px;
+    overflow: auto;
+    word-break: break-all;
+}
+.as_detail-table .as_plot pre {
+	height: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0 none;
+    border-radius: 0;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    line-height: inherit;
+	white-space: pre-line;
+}
+.as_detail-table .as_plot textarea{
+	height: 100%;
+}
+.as_list-table tbody .as_plot {
+	text-align:justify;
+}
+
+.as_movie-tablist {
+	display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+}
+.as_movie-tabitem:not(:first-child) {
+	margin-left: 8px;
+}
+.as_movie-tabitem a {
+    display: block;
+    padding: 14px 22px;
+    background: #1c371f;
+    border-radius: 8px;
+    font-size: 16px;
+	color: #fff;
+    line-height: 1;
+	opacity: .3;
+	transition: .4s ease-in;
+}
+.as_movie-tabitem a:hover,
+.as_movie-tabitem a:focus {
+	text-decoration: none;
+    opacity: .5;
+}
+.as_movie-tabitem.is-active a {
+	opacity: 1;
+}

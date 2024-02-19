@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.dao.TheaterManageDao">
+	<!-- 영화관 목록 -->
+	<select id="theaterReadAll" resultType="TheaterDto">
+		select tt_no, tt_name,
+		tt_tel
+		, time_format(tt_start, '%H:%i') as tt_start
+		,
+		time_format(tt_close, '%H:%i') as tt_close
+		, tt_scrcnt, tt_img,
+		tt_address
+		from theater order by tt_no asc
+	</select>
+
+	<select id="screenReadAll" resultType="ScreenDto">
+		SELECT
+		GROUP_CONCAT(scr_name) AS scr_name
+		FROM screen
+		WHERE scrstate_no = 1
+		GROUP BY tt_no
+	</select>
+
+	<!-- 영화관 추가 -->
+	<insert id="ttInsert" parameterType="TheaterDto">
+		insert into theater
+		(tt_name, tt_img, tt_address, tt_tel, tt_start, tt_close, tt_scrcnt)
+		values
+		(#{tt_name}, #{tt_img}, #{tt_address}, #{tt_tel}, #{tt_start},
+		#{tt_close}, #{tt_scrcnt})
+	</insert>
+
+	<select id="readTT" parameterType="TheaterDto"
+		resultType="TheaterDto">
+		select tt_no from theater where tt_name = #{tt_name}
+	</select>
+
+	<insert id="scrInsert" parameterType="ScreenDto">
+		insert into screen
+		(tt_no,
+		scr_name, scr_price, scr_st_col, scr_st_row, scr_st_cnt)
+		values
+		(#{tt_no}, #{scr_name}, #{scr_price}, #{scr_st_col}, #{scr_st_row},
+		#{scr_st_cnt})
+	</insert>
+
+	<select id="insertNowTheater" resultType="integer">
+		select tt_no from
+		theater order by tt_no desc limit 1
+	</select>
+
+	<!-- 영화관 수정 -->
+	<select id="theaterRead" parameterType="int"
+		resultType="TheaterDto">
+		select * from theater where tt_no=#{tt_no}
+	</select>
+
+	<select id="screenReadAll2" parameterType="int"
+		resultType="ScreenDto">
+		select * from screen where tt_no=#{tt_no}
+	</select>
+
+	<select id="screenRead" parameterType="ScreenDto"
+		resultType="ScreenDto">
+		select * from screen where scr_no = #{scr_no}
+	</select>
+
+	<update id="theaterUpdate" parameterType="TheaterDto">
+		update theater set
+		tt_name = #{tt_name}, tt_tel = #{tt_tel}
+		,tt_start = #{tt_start},
+		tt_close = #{tt_close}
+		where tt_no = #{tt_no}
+	</update>
+
+	<update id="screenUpdate" parameterType="ScreenDto">
+		update screen
+		set
+		scr_name = #{scr_name},
+		scr_price = #{scr_price}
+		where scr_no =
+		#{scr_no}
+	</update>
+
+	<delete id="screenDelete" parameterType="int">
+		delete from screen where
+		tt_no=#{tt_no}
+	</delete>
+
+	<delete id="theaterDelete" parameterType="int">
+		delete from theater
+		where tt_no=#{tt_no}
+	</delete>
+
+	<select id="ttandscrRead" parameterType="int"
+		resultType="TTandScrDto">
+		SELECT t.*, s.*, ss.scrstate_state, (SELECT COUNT(*) FROM
+		broken_seat WHERE scr_no = #{scr_no}) as bkCnt
+		FROM theater t
+		JOIN
+		screen s ON t.tt_no = s.tt_no
+		LEFT JOIN screenstate ss ON s.scrstate_no = ss.scrstate_no
+		WHERE s.scr_no = #{scr_no};
+	</select>
+
+	<update id="scrstateUpdate" parameterType="java.util.HashMap">
+		update screen
+		set
+		<choose>
+			<when test="scrstate_no == 1"> scrstate_no = 2</when>
+			<when test="scrstate_no == 2"> scrstate_no = 1</when>
+		</choose>
+		where scr_no= #{scr_no}
+	</update>
+
+
+	<insert id="bkSeatInsert" parameterType="TTandScrDto">
+		insert into broken_seat
+		(scr_no, bk_st_name)
+		values
+		(#{scr_no}, #{bk_st_name})
+	</insert>
+	
+	<delete id="bkSeatDelete" parameterType="TTandScrDto">
+		delete from broken_seat 
+		where scr_no=#{scr_no} and bk_st_name=#{bk_st_name}
+	</delete>
+
+	<select id="bkSeatRead" parameterType="int" resultType="BrokenSeatDto">
+		select bk_st_name
+		from broken_seat
+		where scr_no= #{scr_no}
+	</select>
+
+
+
+
+
+
+
+
+
+</mapper>

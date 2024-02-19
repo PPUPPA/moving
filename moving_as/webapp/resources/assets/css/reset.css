@@ -1,0 +1,71 @@
+@charset "UTF-8";
+
+/*-----------------------------------------------------------------------------------------------------
+    File   : __reset.css
+    Author : Sunny, 2020-06
+    Version: 1.0
+    CSS 속성 선언순서 : display, position, float/clear, overflow, width/height, margin/padding,
+    border, border-radius, background, box-shadow, font(font-family, font-size , font-weight, font-style, color, line-height,), opacity, cursor, box-sizing, etc
+/*--------------------------------------------------------------------------------------------------------*/
+
+
+/* ---------------------------------------- */
+/* reset */
+/* ---------------------------------------- */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button{margin:0;padding:0;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+pre{word-wrap:break-word;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-o-pre-wrap;word-break:break-all;}
+
+/* 기본폰트 지정 */
+body,button,input,select,table,textarea,pre{font-family:'Pretendard', 'Noto Sans KR','Malgun Gothic',Arial,sans-serif;font-size:14px;font-weight:400;color:#212121;line-height:1.3;letter-spacing:-.56px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+
+body{-webkit-text-size-adjust:none}
+button,fieldset,img{border:0 none}
+fieldset,img{border:0}
+img,li{border:0;vertical-align:top}
+li,ol,ul{list-style:none;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+address,em{font-style:normal;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+a{color:inherit;text-decoration:none;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+a:active,a:focus,a:hover{color:inherit;text-decoration:none}
+button{border:0;background:0 0;cursor:pointer}
+table{margin:0;padding:0;border:0;border-spacing:0;border-collapse:collapse;}
+input[type="text"],textarea{resize:none;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;-o-appearance:none;appearance:none;-webkit-box-shadow:none;-moz-box-shadow:none;-o-box-shadow:none;}
+embed,iframe,img,object,video{max-width:100%;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+@media screen and (max-width:999px){
+  html{font-size:10px;font-size:0.625rem;}
+  body,button,input,select,table,textarea{font-size:1.6rem;letter-spacing:-0.05rem;}
+}
+@media screen and (max-width:690px) {
+  html{font-size:10px;font-size:0.625rem;-webkit-text-size-adjust: none;}
+  body,button,input,select,table,textarea{font-size:1.6rem}
+}
+
+/* IE9+IE10 */
+@media screen and (min-width:0\0){
+  article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+  audio,canvas,progress,video{display:inline-block;vertical-align:baseline;}
+  audio:not([controls]){display:none;height:0;}
+  [hidden],template{display:none;}
+  svg:not(:root){overflow:hidden;}
+}
+
+
+/* ---------------------------------------- */
+/* general class */
+/* ---------------------------------------- */
+/* skip */
+.skip a{overflow:hidden;display:block;position:absolute;top:0;left:0;width:1px;height:1px;background:#000;color:#fff;text-align:center}
+.skip a:focus,.skip a:active{position:fixed;width:100%;height:auto;padding:10px}
+
+.only_res,.only_tablet,.only_mobile{display:none;}
+.ir_text,.blind{overflow:hidden;position:absolute;top:0;left:0;border:0;width:1px;height:1px;clip:rect(1px,1px,1px,1px)}
+.word_keep{word-break:keep-all;}
+@media screen and (max-width:999px){
+    .only_pc{display:none;}
+    .only_res,.only_tablet{display:block;}
+    .not_tablet{display:none;}
+}
+@media screen and (max-width:690px){
+    .only_tablet{display:none;}
+    .only_mobile, .not_tablet{display:block;}
+    .not_mobile{display:none}
+}

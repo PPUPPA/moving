@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.dao.IhDao">
+
+    <!-- ① 로그인 -->
+	<resultMap id="IhResultMap" type="IhResultDto">
+	    <association property="usertype" javaType="UsertypeDto">
+	        <result property="usertp_name" column="usertp_name"/>
+	    </association>
+	    <association property="user" javaType="UserDto">
+	        <result property="user_id" column="user_id"/>
+	        <result property="user_nick" column="user_nick"/>
+	        <result property="user_age" column="user_age"/>
+	        <result property="user_name" column="user_name"/>
+	        <result property="user_no" column="user_no"/>
+	        <result property="user_mail" column="user_mail"/>
+	        <result property="user_phone" column="user_phone"/>
+	    </association>
+	</resultMap>
+
+	<select id="login" parameterType="UserDto" resultMap="IhResultMap">
+		select ut.usertp_name, u.user_id, u.user_nick , u.user_no, u.user_age, u.user_name, u.user_mail, u.user_phone
+	    from usertype ut
+	    join user u
+	    on u.usertp_no = ut.usertp_no 
+	    where u.user_no = (select user_no from user where user_id = #{user_id} );
+	</select>
+	
+	<!-- 로그인버튼 클릭시 유저확인 ajax -->
+	<select id="userCheck" parameterType="UserDto" resultType="int">
+    	select count(*) `cnt` from user where user_id=#{user_id} and user_pass=#{user_pass}
+    </select>
+
+    <!-- ③ 회원가입 -->
+    <insert id="join" parameterType="UserDto">
+		insert into user (usertp_no,user_id,user_name,user_pass,user_nick,user_mail,user_age,user_phone,user_crtdate,user_ip) 
+		values (1 , #{user_id} ,#{user_name},#{user_pass},#{user_nick},#{user_mail},#{user_age},#{user_phone},now(),#{user_ip});
+    </insert>
+
+    <!-- ④ 아이디 찾기 -->
+    <select id="findId" parameterType="UserDto" resultType="String">
+		select user_id from user 
+		where user_name = #{user_name} and user_age=#{user_age} and user_mail=#{user_mail};
+    </select>
+
+    <!-- ⑤ 비밀번호 찾기 -->
+    <select id="findPassFindMail" parameterType="UserDto" resultType="UserDto">
+		select user_mail from user where user_id = #{user_id}
+    </select>
+    <update id="findPassSendMail" parameterType="UserDto">
+        update user set user_pass=#{user_pass} where user_mail = #{user_mail};
+    </update>
+
+    <!-- ⑥ 비밀번호 변경 -->
+    <update id="changePass" parameterType="UserDto">
+		update user set user_pass=#{user_pass} where user_id=#{user_id};
+    </update>
+
+    <!-- ⑦ 회원정보 수정 탭 입장 -->
+    <select id="goToUpdateTab" parameterType="UserDto" resultType="UserDto">
+		select*from user where user_id=#{user_id} and user_pass=#{user_pass};
+    </select>
+
+    <!-- ⑧ 회원정보 수정 -->
+    <update id="userUpdate" parameterType="UserDto" >
+		update user set user_mail=#{user_mail}, user_nick=#{user_nick} , user_phone=#{user_phone} 
+		where user_id=#{user_id};
+    </update>
+
+    <!-- ⑩ 탈퇴 이메일 코드 발송 -->
+    <select id="SendMailForDeleteUser" parameterType="UserDto" resultType="UserDto">
+		select user_id from user where user_mail=#{user_mail};
+    </select>
+
+    <!-- ⑪ 관리자의 회원 관리 페이지 테이블 = listcnt -->
+    <select id="readTotalUser" resultType="UserDto">
+		select*from user order by user_no desc limit  #{pstartno} , #{onepagelimit};
+    </select>
+			<select  id="listtotal" resultType="int">
+				select  count(*) from user	
+			</select>
+    <!-- ⑫ 관리자가 들어가는 회원의 마이페이지 -->
+    <select id="selectedUserPage" parameterType="UserDto" resultType="UserDto">
+        select*from user where user_no = #{user_no};
+    </select>
+
+    <!-- ⑬ 관리자가 탈퇴시키는 회원은 5등급으로 -->
+    <update id="deleteUser" parameterType="UserDto">
+        update user set usertp_no=5 where user_id=#{user_id};
+    </update>
+
+    <!-- ⑬ 사용자요청 탈퇴회원은 4등급 24시간유지 -->
+		<update id="preDeleteUser" parameterType="UserDto">
+		    <!-- 사용자가 탈퇴 요청 시 등급을 4등급으로 변경 -->
+		    update user set usertp_no = 4 where user_id = #{user_id};
+		</update>
+		
+		<update id="myDeleteUser">
+		    <!-- 자정에 실행되어 4등급인 사용자를 5등급으로 변경 -->
+		    update user set usertp_no = 5 where usertp_no = 4;
+		</update>
+		<update id="myDeleteUserCancle" parameterType="UserDto">
+		    <!-- 사용자가 탈퇴취소 시 등급을 1등급으로 변경 -->
+		    update user set usertp_no = 1 where user_id = #{user_id};
+		</update>
+	
+    <!-- ⑭아이디 중복체크 -->
+    <select id="idCheck" parameterType="UserDto" resultType="int">
+    	select count(*) `cnt` from user where user_id=#{user_id}
+    </select>
+    
+    <!-- ⑮닉네임 중복체크 -->
+    <select id="nicknameCheck" parameterType="UserDto" resultType="int">
+    	select count(*) `cnt`  from user where user_nick=#{user_nick}
+    </select>
+    
+    <!-- ⑮이메일 중복체크 -->
+    <select id="emailCheck" parameterType="UserDto" resultType="int">
+    	select count(*) `cnt`  from user where user_mail=#{user_mail}
+    </select>
+    
+    <!-- 16. 비밀번호 변경페이지의 원래비밀번호 체크 ajax -->
+    <select id="originalPasswordCheck" parameterType="UserDto" resultType="int">
+    	select count(*) `cnt` from user where user_id=#{user_id} and user_pass=#{user_pass}
+    </select>
+    
+    <!-- 17. 네이버와 연동된 네이버 계정이 있는지 판별 -->
+	<select id="naverJoin" parameterType="UserDto" resultType="UserDto">
+	    select * from user where user_naver = #{user_naver}
+	</select>
+    
+    <!-- 18. 네이버회원가입직후 user_no 와 usertp_no 를 세션에 저장하기위해 가져오기 -->
+    <select id="selectUserNoNaverAfterJoin" parameterType="UserDto" resultType="UserDto">
+        select u.user_no,u.usertp_no,ut.usertp_name from user u join usertype ut using(usertp_no) where u.user_naver = #{user_naver};
+    </select>
+	
+    <!-- 19. 카카오와 연동된 네이버 계정이 있는지 판별 -->
+	<select id="kakaoJoin" parameterType="UserDto" resultType="UserDto">
+	    select * from user where user_kakao = #{user_kakao}
+	</select>
+    
+    <!-- 20. 카카오코드가있는 계정은 카카오 코드를 삭제 = 연동끊기 -->
+    <update id="deleteKakaoCode" parameterType="UserDto" >
+        update user set user_kakao=null where user_kakao=#{user_kakao}
+    </update>
+    
+    <!-- 21. 카카오코드가있는 계정은 카카오 코드를 삽입 = 연동하기 -->
+    <update id="updateKakaoCode" parameterType="UserDto" >
+        update user set user_kakao=#{user_kakao} where user_id=#{user_id}
+    </update>
+    
+    <!-- 22. 마이페이지 입장시 소셜 게정이 null인지 확인 -->
+    <select id="confirmKakaoIntegration" parameterType="UserDto" resultType="UserDto">
+    	select*from user where user_id=#{user_id} 
+    </select>
+    
+        <!-- 20. 네이버코드가있는 계정은 네이버 코드를 삭제 = 연동끊기 -->
+    <update id="deleteNaverCode" parameterType="UserDto" >
+        update user set user_naver=null where user_naver=#{user_naver}
+    </update>
+    
+    <!-- 21. 카카오코드가있는 계정은 카카오 코드를 삽입 = 연동하기 -->
+    <update id="updateNaverCode" parameterType="UserDto" >
+        update user set user_naver=#{user_naver} where user_id=#{user_id}
+    </update>
+    <!-- 22. 사용자 해싱된 비밀번호 조회 -->
+    <select id="getHashedPassword" resultType="string" parameterType="UserDto">
+        select user_pass from user where user_id = #{user_id}
+    </select>
+</mapper>

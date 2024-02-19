@@ -1,0 +1,133 @@
+{
+	"contents": [
+		{
+			"role": "user",
+			"parts": [
+				{
+					"text": "You are a program for movie theater administrators to use on my movie theater website. You need to return intent data as JSON for the entered text"
+				}
+			]
+		},
+		{
+			"role": "model",
+			"parts": [
+				{
+					"text": "{\n  \"intent\": \"book_ticket\",\n  \"parameters\": {\n    \"mv_ktitle\": \"The Batman\",\n    \"tt_name\": \"AMC Loews Boston Common 19\",\n    \"sch_date\": \"2022-03-11\",\n    \"sch_start\": \"19:00\",\n    \"seats\": 2\n  }\n}"
+				}
+			]
+		},
+		{
+			"role": "user",
+			"parts": [
+				{
+					"text": "2024년 1월 25일 강남영화관 1관 9시에 서울의 봄 추가하고싶어"
+				}
+			]
+		},
+		{
+			"role": "model",
+			"parts": [
+				{
+					"text": "{\n  \"intent\": \"add_showtime\",\n  \"parameters\": {\n    \"mv_ktitle: \"서울의 봄\",\n    \"tt_name\": \"강남영화관\",\n    \"scr_name\":\"1관\"\n    \"sch_date\": \"2024-01-25\",\n    \"sch_start\": \"09:00\"\n  }\n}"
+				}
+			]
+		},
+		{
+			"role": "user",
+			"parts": [
+				{
+					"text": "2023년 1월 25일 강남영화관 1관 9시 상영시간표 상영시간 12시로 수정하고 싶어"
+				}
+			]
+		},
+		{
+			"role": "model",
+			"parts": [
+				{
+					"text": "{\n  \"intent\": \"update_showtime\",\n  \"parameters\": {\n    \"mv_ktitle\": null,\n    \"tt_name\": \"강남영화관\",\n    \"scr_name\":\"1관\",\n    \"sch_date\": \"2023-01-25\",\n    \"old_time\": \"09:00\",\n    \"new_time\": \"12:00\"\n  }\n}"
+				}
+			]
+		},
+		{
+			"role": "user",
+			"parts": [
+				{
+					"text": "2024년 1월 25일 강남영화관 1관 9시에 상영시간표 삭제하고싶어"
+				}
+			]
+		},
+		{
+			"role": "model",
+			"parts": [
+				{
+					"text": "{\n  \"intent\": \"delete_showtime\",\n  \"parameters\": {\n    \"theater_name\": \"강남영화관\",\n    \"screen_name\":\"1관\",\n    \"sch_date\": \"2024-01-25\",\n    \"sch_start\": \"09:00\"\n  }\n}"
+				}
+			]
+		},
+		{
+			"role": "user",
+			"parts": [
+				{
+					"text": "강남영화관 2024년 1월 26일 상영시간표 보여줘"
+				}
+			]
+		},
+		{
+			"role": "model",
+			"parts": [
+				{
+					"text": "{\n  \"intent\": \"get_showtimes\",\n  \"parameters\": {\n    \"tt_name\": \"강남영화관\",\n    \"sch_date\": \"2024-01-26\"\n  }\n}"
+				}
+			]
+		},
+		{
+			"role": "user",
+			"parts": [
+				{
+					"text": "2월 3일 종로 메가박스 1관 9시에 서울의 봄 추가하고싶어"
+				}
+			]
+		},
+		{
+			"role": "model",
+			"parts": [
+				{
+					"text": "{\n  \"intent\": \"add_showtime\",\n  \"parameters\": {\n    \"mv_ktitle\": \"서울의 봄\",\n    \"tt_name\": \"종로 메가박스\",\n    \"scr_name\":\"1관\",\n    \"sch_date\": \"2024-02-03\",\n    \"sch_start\": \"09:00\"\n  }\n}"
+				}
+			]
+		},
+		{
+			"role": "user",
+			"parts": [
+				{
+					"text": "신촌 롯데시네마 2관 18시 상영시간표 삭제해줘"
+				}
+			]
+		}
+	],
+	"generationConfig": {
+		"temperature": 0.2,
+		"topK": 1,
+		"topP": 1,
+		"maxOutputTokens": 256,
+		"stopSequences": []
+	},
+	"safetySettings": [
+		{
+			"category": "HARM_CATEGORY_HARASSMENT",
+			"threshold": "BLOCK_MEDIUM_AND_ABOVE"
+		},
+		{
+			"category": "HARM_CATEGORY_HATE_SPEECH",
+			"threshold": "BLOCK_MEDIUM_AND_ABOVE"
+		},
+		{
+			"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+			"threshold": "BLOCK_MEDIUM_AND_ABOVE"
+		},
+		{
+			"category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+			"threshold": "BLOCK_MEDIUM_AND_ABOVE"
+		}
+	]
+}

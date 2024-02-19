@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+.as_inner .btns .btn:not(:first-child){
+	margin-left: 8px;
+}
+tr:last-child td:first-child {
+    border-bottom-left-radius: 6px;
+    border-left: 1px solid #c6c9cc;
+}
+
+.as_table.table thead th {
+	vertical-align: middle;
+}
+.as_table label {
+	margin-bottom:0;
+}
+.as_table.table .colA {
+	width: auto;
+}
+.as_table.table .col4 {
+	width: 4%;
+}
+.as_table.table .col8 {
+	width: 8%;
+}
+.as_table.table .col12 {
+	width: 12%;
+}
+.as_table.table .col16 {
+	width: 16%;
+}
+.as_table .is-empty {
+	height: 200px;
+    background: #fff;
+    vertical-align: middle;
+}
+.as_list-table thead th,
+.as_list-table tbody td {
+	word-break: keep-all;
+}
+.as_list-table tbody td a{
+	display: block;
+}
+.as_inner-footer {
+	position: relative;
+	text-align: right;
+}
+.as_inner-footer .pagination-container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.as_inner .table-summary{
+	margin: 0;
+}
+.as_inner .search-box {
+	display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 8px;
+}
+.as_inner .search-group {
+	text-align: right;
+}
+.as_inner .search-group label {
+	position: relative;
+	margin-bottom: 0;
+	vertical-align: middle;
+}
+
+.as_detail-table {
+	border: 1px solid #c6c9cc;
+	border-radius: 6px;
+}
+.as_detail-table tr:first-of-type th,
+.as_detail-table tr:first-of-type td {
+	border-top: 0 none;
+}
+.as_detail-table tr:first-of-type th:last-child,
+.as_detail-table tr:first-of-type td:last-child {
+	border-top-right-radius: 6px;
+}
+.as_detail-table tr:last-of-type th:first-child,
+.as_detail-table tr:last-of-type td:first-child {
+	border-bottom-left-radius: 6px;
+}
+.as_detail-table tr,
+.as_detail-table tr:hover,
+.as_detail-table tr:focus {
+	background-color: #eaeaed;
+}
+.as_detail-table th,
+.as_detail-table td {
+	border-bottom: 0 none;
+	border-right: 0 none;
+	text-align: justify;
+	word-break: keep-all;
+}
+.as_detail-table.table td {
+	border-color: #c6c9cc;
+}
+.as_detail-table.table th {
+	border-color: #6a7677;
+}
+.as_detail-table tr td a {
+	transition: .4s ease-in-out;
+}
+.as_detail-table tr td a:hover,
+.as_detail-table tr td a:focus {
+	color: #767676;
+	text-decoration: underline;
+}
+.as_detail-table tr td a+a {
+	margin-left: 16px;
+}
+.as_inner .search-box .btn-del {
+  display: none;
+  position: absolute;
+  top: 7px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border: 0 none;
+  background: url(../images/ico_del.svg) no-repeat 50% 50%;
+}

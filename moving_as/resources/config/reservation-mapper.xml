@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.dao.ReservationDao">
+	<select id="age_check" parameterType="int" resultType="int">
+		select datediff(now(),(select user_age from user where user_no=#{user_no}));
+	</select>
+	<select id="getAllTheaterList"  resultType="TheaterDto">
+		select * from theater order by tt_no asc 
+	</select>
+	<select id="getTheaterList"  resultType="TheaterDto" parameterType="Reservation_ViewDto">
+		select distinct tt_name,tt.tt_no from movie mv join theater tt join schedule sch join screen scr
+		on(mv.mv_cd=sch.mv_cd and scr.scr_no=sch.scr_no and tt.tt_no=scr.tt_no)
+		<where>
+		<if test="mv_ktitle!=null">mv_ktitle=#{mv_ktitle}</if>
+		<if test="sch_date!=null">and sch_date=#{sch_date}</if>
+		and sch.schstate_no=1
+		</where>
+		order by tt.tt_no asc
+	</select>
+	<select id="getAllMovieList"  resultType="MovieDto">
+		select * from movie where mv_live=1 order by mv_cd asc 
+	</select>
+	<select id="allClick"  resultType="Reservation_ViewDto">
+		select tt.tt_no,mv.mv_cd,sch_date from movie mv join theater tt join schedule sch join screen scr 
+		on(mv.mv_cd=sch.mv_cd and scr.scr_no=sch.scr_no and tt.tt_no=scr.tt_no) where sch_no=#{sch_no}
+	</select>
+	<select id="getMovieList"  resultType="MovieDto" parameterType="Reservation_ViewDto">
+		select distinct mv_ktitle,mv.mv_cd from movie mv join theater tt join schedule sch join screen scr
+		on(mv.mv_cd=sch.mv_cd and scr.scr_no=sch.scr_no and tt.tt_no=scr.tt_no)
+		<where>
+		<if test="tt_name!=null">tt_name=#{tt_name}</if>
+		<if test="sch_date!=null">and sch_date=#{sch_date}</if>
+		and sch.schstate_no=1
+		</where>
+		order by mv.mv_cd asc		 
+	</select>
+	<select id="getDateList"  resultType="ScheduleDto" parameterType="Reservation_ViewDto">
+		select  distinct sch_date,sch.sch_no from movie mv join theater tt join schedule sch join screen scr 
+		on(mv.mv_cd=sch.mv_cd and scr.scr_no=sch.scr_no and tt.tt_no=scr.tt_no)
+		<where>
+		<if test="tt_name!=null">tt_name=#{tt_name}</if>
+		<if test="mv_ktitle!=null">and mv_ktitle=#{mv_ktitle}</if>
+		</where>
+		and sch.schstate_no=1
+		order by sch.sch_no asc		 
+	</select>
+	<select id="getScheduleList"  resultType="Reservation_ViewDto" parameterType="Reservation_ViewDto">
+		select sch.sch_no,scr_name,TIME_FORMAT(sch.sch_start, '%H:%i') AS sch_start,
+      TIME_FORMAT(sch.sch_end,
+      '%H:%i') AS sch_end,sch_cnt,scr_st_cnt 
+		from movie mv join theater tt join schedule sch join screen scr 
+		on(mv.mv_cd=sch.mv_cd and scr.scr_no=sch.scr_no and tt.tt_no=scr.tt_no)
+ 		where tt_name=#{tt_name} and mv_ktitle=#{mv_ktitle} and sch_date=#{sch_date} and sch.schstate_no=1
+ 		
+	</select>
+	<select id="getSeatList"  resultType="ScreenDto">
+		select scr.scr_st_col,scr.scr_st_row from schedule sch join screen scr on(scr.scr_no=sch.scr_no) where sch_no=#{sch_no} 
+	</select>
+	<select id="getBrokenSeatList" resultType="BrokenSeatDto">
+		select br.bk_st_name from broken_seat br join screen scr join schedule sch on
+		(br.scr_no=scr.scr_no and scr.scr_no=sch.scr_no) where sch_no=#{sch_no}
+	</select>
+	<select id="getReservedSeatList" resultType="ReservationdetailDto">
+		select rd_st_name from reservationdetail rd join reservation rs join schedule sch 
+		on(rd.r_no=rs.r_no and rs.sch_no=sch.sch_no) where sch.sch_no=#{sch_no} and rstate_no=1;
+	</select>
+	
+	<select id="getPayList"  resultType="Reservation_ViewDto">
+		select mv.mv_start,tt.tt_name, scr.scr_no,
+		TIME_FORMAT(sch.sch_start, '%H:%i') AS sch_start,
+      TIME_FORMAT(sch.sch_end,'%H:%i') AS sch_end,scr.scr_price,
+		scr.scr_name,mv.mv_ktitle,mv.mv_img,mv.mv_start
+		from movie mv join theater tt join schedule sch join screen scr
+		on(mv.mv_cd=sch.mv_cd and scr.scr_no=sch.scr_no and tt.tt_no=scr.tt_no) where sch_no=${sch_no}
+	</select>
+	<select id="getRno" resultType="integer">
+		select (max(r_no)+1) from reservation
+	</select>
+	<insert id="insertReservation" parameterType="Reservation_ViewDto">
+		insert into reservation (r_no,user_no,sch_no,r_price) 
+		value(#{r_no},#{user_no},#{sch_no},#{scr_price})
+	</insert>
+	<update id="updateScheduleCnt" parameterType="Reservation_ViewDto">
+		update schedule set sch_cnt=sch_cnt-1 where sch_no=#{sch_no}
+	</update>
+	<insert id="insertReservationDetailA" parameterType="Reservation_ViewDto">
+		insert into reservationdetail (r_no,rd_st_name,as_code,rd_price) 
+		value(#{r_no},#{rd_st_name},
+		(select as_code from adult_status where as_code='A'),#{aprice})
+	</insert>
+	<insert id="insertReservationDetailC" parameterType="Reservation_ViewDto">
+		insert into reservationdetail (r_no,rd_st_name,as_code,rd_price)	
+		value(#{r_no},#{rd_st_name},
+		(select as_code from adult_status where as_code='K'),#{kprice})
+	</insert>
+	<select id="getMyReservationView_1" resultType="Reservation_ViewDto" parameterType="Reservation_ViewDto">
+		select mv.mv_ktitle, r.r_no, tt.tt_name, scr.scr_name, sch.sch_date,TIME_FORMAT(sch.sch_start, '%H:%i') AS sch_start,
+      	TIME_FORMAT(sch.sch_end,'%H:%i') AS sch_end,r.r_price,mv.mv_img
+		from reservation r join theater tt join screen scr join schedule sch join movie mv join schedulestate sst
+		on(r.sch_no=sch.sch_no and scr.scr_no=sch.scr_no and scr.tt_no=tt.tt_no 
+		and sch.schstate_no=sst.schstate_no and sch.mv_cd=mv.mv_cd) where r.rstate_no=1 and user_no=#{user_no}
+	</select>
+	<select id="getMyReservationView_2" resultType="ReservationdetailDto" parameterType="Reservation_ViewDto">
+		select * from reservationdetail where r_no=#{r_no}
+	</select>
+	<update id="reservationcancel" parameterType="Reservation_ViewDto">
+		update reservation set rstate_no=2 where r_no=#{r_no}
+	</update> 
+	<update id="reservationcancelCnt" parameterType="Reservation_ViewDto">
+		update schedule set sch_cnt=sch_cnt+(select count(*) from reservationdetail where r_no=#{r_no}) 
+		where sch_no=(select sch_no from reservation where r_no=#{r_no});
+	</update>
+	<select id="getMycanceledReservationView" resultType="Reservation_ViewDto" parameterType="Reservation_ViewDto">
+		select mv.mv_ktitle, r.r_no, tt.tt_name, scr.scr_name, sch.sch_date,TIME_FORMAT(sch.sch_start, '%H:%i') AS sch_start,
+      	TIME_FORMAT(sch.sch_end,'%H:%i') AS sch_end,r.r_price,mv.mv_img
+		from reservation r join theater tt join screen scr join schedule sch join movie mv join schedulestate sst
+		on(r.sch_no=sch.sch_no and scr.scr_no=sch.scr_no and scr.tt_no=tt.tt_no 
+		and sch.schstate_no=sst.schstate_no and sch.mv_cd=mv.mv_cd) where r.rstate_no=2 and user_no=#{user_no}
+	</select>
+
+	<select id="rvcount" resultType="int" parameterType="Reservation_ViewDto">
+		select count(*) from reservation r join user u join movie mv join theater tt join screen scr join schedule sch join reservationstate rs
+		
+		on(rs.rstate_no=r.rstate_no and r.sch_no=sch.sch_no and sch.mv_cd=mv.mv_cd 
+		and sch.scr_no=scr.scr_no and scr.tt_no=tt.tt_no and r.user_no=u.user_no)
+		<choose>
+			<when test="user_name!=null">where user_name like concat('%',#{user_name},'%')</when>
+			<when test="mv_ktitle!=null">where mv_ktitle like concat('%',#{mv_ktitle},'%')</when>
+			<when test="tt_name!=null">where tt_name like concat('%',#{tt_name},'%')</when>
+		</choose>
+	</select>
+	<select id="rvlist10" resultType="Reservation_ViewDto" parameterType="Reservation_ViewDto">
+		select r.r_no,u.user_name,mv.mv_ktitle,tt.tt_name,scr.scr_name,sch.sch_date,TIME_FORMAT(sch.sch_start, '%H:%i') AS sch_start,
+      	TIME_FORMAT(sch.sch_end,'%H:%i') AS sch_end,rs.rstate_state,r.r_price
+		from reservation r join user u join movie mv join theater tt join screen scr join schedule sch join reservationstate rs
+		
+		on(rs.rstate_no=r.rstate_no and r.sch_no=sch.sch_no and sch.mv_cd=mv.mv_cd 
+		and sch.scr_no=scr.scr_no and scr.tt_no=tt.tt_no and r.user_no=u.user_no)
+		<choose>
+			<when test="user_name!=null">where user_name like concat('%',#{user_name},'%')</when>
+			<when test="mv_ktitle!=null">where mv_ktitle like concat('%',#{mv_ktitle},'%')</when>
+			<when test="tt_name!=null">where tt_name like concat('%',#{tt_name},'%')</when>
+		</choose>
+		order by r.r_no desc limit #{pstartno},10
+	</select>
+	<update id="admin_reservationcancel" parameterType="int">
+		update reservation set rstate_no=2 where r_no=#{r_no}
+	</update>
+	<update id="admin_reservationcancelCnt" parameterType="int">
+		update schedule set sch_cnt=sch_cnt+(select count(*) from reservationdetail where r_no=#{r_no}) 
+		where sch_no=(select sch_no from reservation where r_no=#{r_no});
+	</update>
+		
+		
+	
+</mapper>

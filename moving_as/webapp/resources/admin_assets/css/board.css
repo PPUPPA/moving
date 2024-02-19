@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+.as_board-list .as_table {
+	margin-top: 20px;
+}
+.as_detail-table .as_b-content {
+	height: 300px;
+    overflow: auto;
+    word-break: break-all;
+}
+.as_detail-table .as_b-content pre {
+	height: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0 none;
+    border-radius: 0;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    line-height: inherit;
+	white-space: pre-line;
+}
+.as_detail-table .as_b-content textarea{
+	height: 100%;
+}

@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+@font-face {
+  font-weight: 300;
+  font-family: Pretendard;
+  font-style: normal;
+  src: local('pretendard-Light'), url(../font/pretendard/Pretendard-Light.woff2) format('woff2'),
+    url(../font/pretendard/Pretendard-Light.woff) format('woff'); /* Modern Browsers */
+
+  font-display: swap;
+}
+
+@font-face {
+  font-weight: 400;
+  font-family: Pretendard;
+  font-style: normal;
+  src: local('pretendard-Regular'), url(../font/pretendard/Pretendard-Regular.woff2) format('woff2'),
+    url(../font/pretendard/Pretendard-Regular.woff) format('woff'); /* Modern Browsers */
+
+  font-display: swap;
+}
+
+@font-face {
+  font-weight: 500;
+  font-family: Pretendard;
+  font-style: normal;
+  src: local('pretendard-Medium'), url(../font/pretendard/Pretendard-Medium.woff2) format('woff2'),
+    url(../font/pretendard/Pretendard-Medium.woff) format('woff'); /* Modern Browsers */
+
+  font-display: swap;
+}
+
+@font-face {
+  font-weight: 700;
+  font-family: Pretendard;
+  font-style: normal;
+  src: local('pretendard-Bold'), url(../font/pretendard/Pretendard-Bold.woff2) format('woff2'),
+    url(../font/pretendard/Pretendard-Bold.woff) format('woff'); /* Modern Browsers */
+
+  font-display: swap;
+}
+
+@font-face {
+  font-weight: 900;
+  font-family: Pretendard;
+  font-style: normal;
+  src: local('pretendard-ExtraBold'), url(../font/pretendard/Pretendard-ExtraBold.woff2) format('woff2'),
+    url(../font/pretendard/Pretendard-ExtraBold.woff) format('woff'); /* Modern Browsers */
+
+  font-display: swap;
+}
+
+/* font-size */
+:root {
+  --font-h-xl: 32px;
+  --font-h-l: 28px;
+  --font-h-m: 24px;
+  --font-h-s: 22px;
+  --font-h-xs: 20px;
+  --font-b-xl: 18px;
+  --font-b-l: 16px;
+  --font-b-m: 14px;
+  --font-b-s: 12px;
+  --font-b-xs: 10px;
+}
